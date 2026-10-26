@@ -84,6 +84,7 @@
                         <button onclick="switchTab('mods')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="mods">Custom Mods</button>
                         <button onclick="switchTab('rules')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="rules">Rules</button>
                         <button onclick="switchTab('guide')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="guide">Guide</button>
+                        <button onclick="switchTab('modlist')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="modlist">Mod List</button>
                         <button onclick="switchTab('store')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-blackthorn-accent hover:text-blackthorn-hover transition-colors" data-target="store">Store</button>
                     </div>
                 </div>
@@ -106,6 +107,7 @@
                 <button onclick="switchTab('mods'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="mods">Custom Mods</button>
                 <button onclick="switchTab('rules'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="rules">Rules</button>
                 <button onclick="switchTab('guide'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="guide">Guide</button>
+                <button onclick="switchTab('modlist'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="modlist">Mod List</button>
                 <button onclick="switchTab('store'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium text-blackthorn-accent hover:bg-zinc-900" data-target="store">Store</button>
             </div>
         </div>
@@ -432,6 +434,107 @@
                     <li>Render distance 20 and sim distance 5 for optimal experience.</li>
                     <li>Low end pc players not advised for physics entity on physics entity combat.</li>
                 </ul>
+            </div>
+        </section>
+
+        <!-- MOD LIST SECTION -->
+        <section id="modlist" class="tab-content">
+            <h2 class="text-3xl font-bold text-white mb-4 border-b border-zinc-800 pb-4">Full Mod List</h2>
+            <p class="text-gray-400 text-lg mb-8">
+                A comprehensive list of the major mods powering Blackthorn Nations Season 2.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Core Content -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Core Content</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Create</li>
+                        <li>Create Aeronautics</li>
+                        <li>Timeless and Classics Zero (TACZ)</li>
+                        <li>Farmers Delight</li>
+                        <li>FramedBlocks</li>
+                        <li>Simple Voice Chat</li>
+                    </ul>
+                </div>
+
+                <!-- Create Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Create Addons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Create Big Cannons</li>
+                        <li>Create: The Factory Must Grow (TFMG)</li>
+                        <li>Create Enchantment Industry</li>
+                        <li>Create Diesel Generators</li>
+                        <li>Create Submarine</li>
+                        <li>Create Automated Logistics</li>
+                        <li>Create Steam 'n' Rails (Tracks)</li>
+                        <li>Create Factory</li>
+                        <li>Create Central Kitchen</li>
+                        <li>Create Cobblestone</li>
+                        <li>Create Kaboom</li>
+                        <li>Create Liquid Fuel</li>
+                    </ul>
+                </div>
+
+                <!-- Aeronautics & Cannons Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Aeronautics & Cannons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>CBC Firepower Components</li>
+                        <li>CBC Going Ballistic</li>
+                        <li>CBC Compact Mount</li>
+                        <li>Aeronautics Toolgun</li>
+                        <li>Aeronautics Lift Patch</li>
+                        <li>Aeronautics Boat Propellers</li>
+                    </ul>
+                </div>
+
+                <!-- Combat & Weapon Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Combat & Weapons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>TACZ Mechanics</li>
+                        <li>TACZ Tweaks</li>
+                        <li>TACZ Refit</li>
+                        <li>TACZ Aero Compat</li>
+                        <li>Curios for Ammo Box</li>
+                    </ul>
+                </div>
+
+                <!-- Quality of Life & Exploration -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> QoL & Exploration</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Travelers Backpack</li>
+                        <li>Jade (WTHIT)</li>
+                        <li>Appleskin</li>
+                        <li>Mouse Tweaks</li>
+                        <li>Clumps</li>
+                        <li>Searchables</li>
+                        <li>Leaves Be Gone</li>
+                        <li>Corpse</li>
+                        <li>Sound Physics Remastered</li>
+                        <li>Presence Footsteps</li>
+                    </ul>
+                </div>
+
+                <!-- Performance & Optimization -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Performance</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>ModernFix</li>
+                        <li>FerriteCore</li>
+                        <li>Embeddium / Sodium</li>
+                        <li>Lithium</li>
+                        <li>Krypton</li>
+                        <li>Entity Culling</li>
+                        <li>Cull Leaves</li>
+                        <li>BadOptimizations</li>
+                        <li>ImmediatelyFast</li>
+                        <li>Chunky</li>
+                    </ul>
+                </div>
             </div>
         </section>
 

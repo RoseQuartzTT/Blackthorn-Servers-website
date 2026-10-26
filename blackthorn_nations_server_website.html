@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackthorn Nations | Produced by Blackthorn Servers</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration for Black/White/Purple Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        blackthorn: {
+                            accent: '#a855f7', // Purple 500
+                            hover: '#9333ea',  // Purple 600
+                            dark: '#0a0a0a',   // Very dark gray/black
+                            card: '#121212',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+        }
+        /* Custom scrollbar for a clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000000; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7; 
+        }
+        
+        /* Utility for hiding tabs */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-300 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-black/90 border-b border-zinc-800 backdrop-blur-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo / Server Name -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="switchTab('home')">
+                    <svg class="w-6 h-6 text-blackthorn-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"></path>
+                    </svg>
+                    <span class="font-bold text-xl text-white tracking-wider">Blackthorn Nations</span>
+                </div>
+                
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-1">
+                        <button onclick="switchTab('home')" class="nav-btn active px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="home">Home</button>
+                        <button onclick="switchTab('mods')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="mods">Custom Mods</button>
+                        <button onclick="switchTab('rules')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="rules">Rules</button>
+                        <button onclick="switchTab('guide')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="guide">Guide</button>
+                        <button onclick="switchTab('modlist')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium hover:text-white hover:bg-zinc-900 transition-colors" data-target="modlist">Mod List</button>
+                        <button onclick="switchTab('store')" class="nav-btn px-3 py-2 rounded-md text-sm font-medium text-blackthorn-accent hover:text-blackthorn-hover transition-colors" data-target="store">Store</button>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" onclick="toggleMobileMenu()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-zinc-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-black border-b border-zinc-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <button onclick="switchTab('home'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="home">Home</button>
+                <button onclick="switchTab('mods'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="mods">Custom Mods</button>
+                <button onclick="switchTab('rules'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="rules">Rules</button>
+                <button onclick="switchTab('guide'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="guide">Guide</button>
+                <button onclick="switchTab('modlist'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium hover:text-white hover:bg-zinc-900" data-target="modlist">Mod List</button>
+                <button onclick="switchTab('store'); toggleMobileMenu()" class="nav-btn-mobile text-left px-3 py-2 rounded-md text-base font-medium text-blackthorn-accent hover:bg-zinc-900" data-target="store">Store</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-blackthorn-dark border-b border-zinc-800 py-16 sm:py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 24px 24px;"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+                <span class="text-blackthorn-accent">Blackthorn Nations</span> Season 2
+            </h1>
+            <p class="text-sm text-purple-400 mb-8 font-medium uppercase tracking-widest">
+                Produced by Blackthorn Servers
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <button onclick="copyIP()" id="ip-btn" class="group flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-zinc-900 border border-zinc-700 hover:border-blackthorn-accent rounded-md text-white font-medium transition-all shadow-sm">
+                    <span id="ip-text">Coming soon</span>
+                    <svg class="w-5 h-5 text-gray-400 group-hover:text-blackthorn-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                </button>
+                
+                <a href="#" class="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-blackthorn-dark border border-zinc-700 hover:border-blackthorn-accent rounded-md text-gray-300 hover:text-white font-medium transition-colors shadow-sm">
+                    <svg class="w-5 h-5 text-blackthorn-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                    </svg>
+                    Download Modpack (Coming Soon)
+                </a>
+                
+                <a href="https://discord.gg/YqngDQrSfB" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-[#5865F2] hover:bg-[#4752C4] rounded-md text-white font-medium transition-colors shadow-sm">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                    </svg>
+                    Join Discord
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+        
+        <!-- HOME SECTION -->
+        <section id="home" class="tab-content active">
+            <div class="bg-blackthorn-card border border-zinc-800 p-8 md:p-12 rounded-lg max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-white mb-6">
+                    Blackthorn Servers presents Blackthorn Nations Season 2
+                </h2>
+                <div class="w-16 h-1 bg-blackthorn-accent mx-auto mb-6 rounded-full"></div>
+                <p class="text-gray-300 leading-relaxed text-lg text-left">
+                    Blackthorn nations is a modded Minecraft server based primarily on create aeronautics, create mod, and Tacz with a plethora of addons. The season will be eight weeks with each week bringing a new era which unlocks content to stagger progression. You will be part of a nation and work together in weekly events to compete with other nations for cash prizes or in game rewards.
+                </p>
+            </div>
+        </section>
+
+        <!-- CUSTOM MODS SECTION -->
+        <section id="mods" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-white mb-4 border-b border-zinc-800 pb-4">Custom Mods</h2>
+                <p class="text-gray-400 text-lg">
+                    To streamline the experience we have custom coded ourselves some mods such as:
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blackthorn-card border border-zinc-800 p-6 rounded-lg hover:border-blackthorn-accent transition-colors">
+                    <div class="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4 text-blackthorn-accent border border-zinc-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Blackthorn World Generation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Custom world gen mod which is an imitation of earth’s climate with an equator and two poles spanning 20k blocks in diameter with 3 geographical points of interest. It also has a wrapping feature so instead of a world border you will appear on the other side of the map.
+                    </p>
+                </div>
+
+                <div class="bg-blackthorn-card border border-zinc-800 p-6 rounded-lg hover:border-blackthorn-accent transition-colors">
+                    <div class="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4 text-blackthorn-accent border border-zinc-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Blackthorn Nations UI</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        A UI which is tailored for this server. Press tab to open a menu which has all the information you will need to thrive on the server, a guide, a nations list, cosmetics, a world map + claim chunks, announcements, era information.
+                    </p>
+                </div>
+
+                <div class="bg-blackthorn-card border border-zinc-800 p-6 rounded-lg hover:border-blackthorn-accent transition-colors">
+                    <div class="w-12 h-12 bg-zinc-900 rounded-lg flex items-center justify-center mb-4 text-blackthorn-accent border border-zinc-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Sable View Distance</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Makes sable sub levels appear in the render distance. This greatly enhances visual fidelity when looking far into the horizon. Also available on CurseForge.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- RULES SECTION -->
+        <section id="rules" class="tab-content">
+            <h2 class="text-3xl font-bold text-white mb-8 border-b border-zinc-800 pb-4">Server Rules</h2>
+            
+            <div class="space-y-8">
+                <!-- Discord Rules -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-blackthorn-accent">1.</span> Discord Server
+                    </h3>
+                    <ul class="list-disc list-outside text-gray-400 space-y-2 ml-5">
+                        <li>No spamming.</li>
+                        <li>No hate speech.</li>
+                        <li>No anti-LGBTQIA+.</li>
+                        <li>Do not abuse staff members.</li>
+                        <li>Follow Discord Terms of Service.</li>
+                        <li>16+ only.</li>
+                        <li>No NSFW content.</li>
+                        <li>Rules may be changed at any time.</li>
+                        <li>All Discord server rules also apply to in-game Minecraft chat.</li>
+                    </ul>
+                </div>
+                
+                <!-- Minecraft Rules -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 md:p-8">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <span class="text-blackthorn-accent">2.</span> Minecraft Server
+                    </h3>
+                    <ul class="list-disc list-outside text-gray-400 space-y-2 ml-5">
+                        <li>No lag machines.</li>
+                        <li>No extremely efficient farms that cause server lag. Spark can be used to identify how much lag is being caused by an individual farm.</li>
+                        <li>Build multiple cities and spread your farms around them rather than building one mega-city to mitigate lag.</li>
+                        <li>If an abandoned physics entity or farm is found, notify the admins so it can be removed to mitigate lag.</li>
+                        <li>Claims only protect up to 40 blocks below the surface, building under that is at your own risk.</li>
+                        <li>Secret unclaimed bases are allowed but can be raided at any time.</li>
+                        <li>No spawn camping just outside someone's claim.</li>
+                        <li>Civilisations may only claim chunks they have already built in, plus a 2-chunk radius around those builds.</li>
+                        <li>No pre-claiming areas for future projects.</li>
+                        <li>No low-effort builds made solely to reserve land.</li>
+                        <li>No "snake claiming."</li>
+                        <li>Do not claim land with the intention of blocking another player.</li>
+                        <li>Civilisations cannot resemble real life hate groups.</li>
+                        <li>PvP is enabled at all times.</li>
+                        <li>No combat logging.</li>
+                        <li>Players are safe inside their own bases. If a player successfully retreats into their base, they are protected.</li>
+                        <li>Destroying infrastructure that would cripple another team's economy is permitted.</li>
+                        <li>Damaging physics entities during combat is permitted.</li>
+                        <li>Levelling entire bases is NOT allowed.</li>
+                        <li>Excessive destruction of aesthetic builds is NOT allowed.</li>
+                        <li>Autoloaders for create big cannons are banned that are faster than 3 seconds (not autocannons).</li>
+                        <li>No using create contraptions as a means of making something untargetable or invincible, they must only be used for farms.</li>
+                        <li>TNT and TNT Minecarts may only be used as trigger mechanisms for bombs using CBC shell payloads.</li>
+                        <li>Destruction must be performed using modded explosives or autocannons.</li>
+                        <li>Do not mine through bases or manually break farms.</li>
+                        <li>No crystal pvp.</li>
+                        <li>No spawn camping.</li>
+                        <li>No killing new players before one week unless they initiate combat first.</li>
+                        <li>No alternate accounts.</li>
+                        <li>No cheats: hacks or xray texture packs etc.</li>
+                        <li>No dupes or bug abusing, instant ban. Due to the volume of mods there will inevitably be several dupe glitches, engaging in them at all will result in a wipe of your nation and a perm ban.</li>
+                        <li>No spying with alt accounts, discord or Minecraft.</li>
+                        <li>No lava casts.</li>
+                        <li>No massive holes in the landscape with 0 purpose.</li>
+                        <li>Do not ruin the landscape just outside someone else’s claim.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUIDE SECTION -->
+        <section id="guide" class="tab-content">
+            <h2 class="text-3xl font-bold text-white mb-8 border-b border-zinc-800 pb-4">Server Guide</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                
+                <!-- 1. Menu Navigation -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">1.</span> Menu Navigation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Press Tab to open the menu, and again to close it. Territory is represented in the map. Charter is your nation and registry lists every nation, journal is your logs and marks.
+                    </p>
+                </div>
+
+                <!-- 2. Nations -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">2.</span> Nations</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Either found a nation or request to join one from the registry. A nation can hold up to 10 people, the founder can change the ranks of members within a nation. Players not in a nation cannot claim land or own physics entities.
+                    </p>
+                </div>
+
+                <!-- 3. Capital -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">3.</span> Capital</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Craft a charter stone and place it on the natural ground under open sky. It claims 5x5 chunks of land. Your capital can not be broken by others, only by the founder.
+                    </p>
+                </div>
+
+                <!-- 4. Claiming Land -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">4.</span> Claiming Land</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Open the map, select claim, and click a chunk next to your land (shift drag to claim lots at once). Claims grow together not in a line, so a new chunk claim requires two sides touching other claimed chunks. You have first 10 chunks free to claim + your capital. Beyond that, you need to place 256 blocks in claimed chunks to unlock 10 more chunk claims. The total amount of chunks claimed is capped by the amount of players you have.
+                    </p>
+                </div>
+
+                <!-- 5. Outposts -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">5.</span> Outposts</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        An outpost beacon can be used within 40 chunks of your other claimed chunks and allows a 3x3 base. An outpost can be destroyed by enemy players.
+                    </p>
+                </div>
+
+                <!-- 6. Zone of Control -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">6.</span> Zone of Control</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Every claimed chunk projects a zone 10 chunks around it, anyone can do anything in it other than claim it. You can declare extra 15 chunks more if you want more zone of control. Contested zone of control is grounds for war.
+                    </p>
+                </div>
+
+                <!-- 7. Where You Can Claim -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">7.</span> Where You Can Claim</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Anywhere not within 1000 blocks of 0 0 and not on the yellow band on the map. No surrounding land so no-one else can reach it.
+                    </p>
+                </div>
+
+                <!-- 8. Protection -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">8.</span> Protection</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Inside your claims the founder can edit the permissions of ranks within the nation and also outsiders. Drills, cannons, shells cannot break blocks within a claim unless war is active. If someone breaks your base at all somehow report to an admin. Protection only works up to 40 blocks below the surface.
+                    </p>
+                </div>
+
+                <!-- 9. Physics Objects -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">9.</span> Physics Objects</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Pulling the physics assembler asks for a name and to use one of your 3 physics entity slots, if a physics entity is destroyed you may get another slot. In your own territory, whilst no-one is online a physics object is locked and can't move however if you are online, be careful as if it isn't protected it could be heisted away.
+                    </p>
+                </div>
+
+                <!-- 10. Eras -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">10.</span> Eras</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        The season unlocks over time in eras, once a week. Everyone gets the same era at the same time. The countdown to the next era is in the era tab. Anything from a later era cannot be obtained or used. Ores and natural blocks that correspond to late era stuff can be obtained but not used.
+                    </p>
+                </div>
+
+                <!-- 11. Announcements -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">11.</span> Announcements</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Server News and events appear here. Events can have a cash prize.
+                    </p>
+                </div>
+
+                <!-- 12. The Map (Spans 2 columns on desktop due to length) -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">12.</span> The Map</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        You see terrain where you have been, and everything within 20 chunks of your nation's land. Ground nobody has refreshed in your nation for 48 hours turns grey on the map. Terrain only appears on the map when you load it yourself, once you have visited somewhere whenever someone from your nation refreshes it, it refreshes your map as well. Other nations' claims only appear on the ground you have discovered. The nation list names every nation but you have to explore to find their claim.
+                    </p>
+                </div>
+
+                <!-- 13. Diplomacy -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">13.</span> Diplomacy</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        In the registry tab: propose alliances, rights of way, peace or declare war. Every war declaration needs to be approved by a server admin first. Until it is approved, the target of war is not told. Once it is approved the war becomes public and scheduling will begin. Alliances, rights of way and war shows on the map.
+                    </p>
+                </div>
+
+                <!-- 14. War (Spans 2 columns on desktop) -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">14.</span> War</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Claims are protected until a war window is agreed upon which will be within the next week when both sides agree, if the defenders try to get out of it by refusing to agree on a time, they surrender to the terms of the attacker's war. War has to be justified, usually over a land dispute, grievance, stealing a physics object etc. The admin will decide if your justification is worthy of allowing the war. The battleground for war is dependant on context. War over territory for example will be only over the area which outpost or capitals project the claims over said area. Each battle is observed by 1 admin who will determine the winner. The winner gets what is agreed upon in the terms. The winner is determined through a multitude of factors such as land occupied at the end, number of kills or damage done to infrastructure. The weight of each factor is dependant on the objective of war. If a defender wins the admin awards them something at the attackers' expense. You cannot declare another war within 72 hours of declaring one.
+                    </p>
+                </div>
+
+                <!-- 15. Radar -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">15.</span> Radar</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Radars are used for information, even when you aren't online. Each player or physics object from another nation is logged when it enters radar range and again when it leaves. With information on time and place logged with the owner's radar. Radar jamming is logged when it starts (with the direction it comes from) and when it stops.
+                    </p>
+                </div>
+
+                <!-- 16. Store and Cosmetics (Spans 2 columns on desktop) -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">16.</span> Store and Cosmetics</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Your colours, emblem, banner, nameplate, stamps, capital decor, registry page and territory banner can be set and customised in the charter tab. There are free cosmetics and paid ones, paid nation cosmetics belong to a nation for its leader to set, and paid player cosmetics are specific to a player. Animated cosmetics are always paid. The bio of a nation gives 50 characters or 250 paid. There are also paid Tacz gun skins of two tiers: recolours and animated. Gun skins are individual to a player. Recolours would cost usually £2-3 per skin and animated skins will vary between £10-20 per skin depending on quality or discounted in a bundle within an animated skin theme. I'm sorry for all this monetisation, however I need to fund the server somehow lol.
+                    </p>
+                </div>
+
+                <!-- 17. Staying Active -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors md:col-span-2">
+                    <h3 class="text-lg font-bold text-white mb-2"><span class="text-blackthorn-accent">17.</span> Staying Active</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        If no-one in a nation logs on for 7 days all of its land is released. If you are on holiday or something, contact an admin and they will protect your land.
+                    </p>
+                </div>
+
+            </div>
+            
+            <!-- General Advice Box (Moved to Bottom) -->
+            <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 md:p-8">
+                <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-blackthorn-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    General Advice
+                </h3>
+                <ul class="list-disc list-outside text-gray-400 space-y-2 ml-5">
+                    <li>Travelling too quickly into unloaded chunks can cause loss of momentum, disappearing physics entities, crashes, or falling from the sky.</li>
+                    <li>Chunky is recommended for client-side chunk pre-generation.</li>
+                    <li>All chunks within the world border are pre-generated server-side.</li>
+                    <li>Render distance 20 and sim distance 5 for optimal experience.</li>
+                    <li>Low end pc players not advised for physics entity on physics entity combat.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- MOD LIST SECTION -->
+        <section id="modlist" class="tab-content">
+            <h2 class="text-3xl font-bold text-white mb-4 border-b border-zinc-800 pb-4">Full Mod List</h2>
+            <p class="text-gray-400 text-lg mb-8">
+                A comprehensive list of the major mods powering Blackthorn Nations Season 2.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Core Content -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Core Content</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Create</li>
+                        <li>Create Aeronautics</li>
+                        <li>Timeless and Classics Zero (TACZ)</li>
+                        <li>Farmers Delight</li>
+                        <li>FramedBlocks</li>
+                        <li>Simple Voice Chat</li>
+                    </ul>
+                </div>
+
+                <!-- Create Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Create Addons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Create Big Cannons</li>
+                        <li>Create: The Factory Must Grow (TFMG)</li>
+                        <li>Create Enchantment Industry</li>
+                        <li>Create Diesel Generators</li>
+                        <li>Create Submarine</li>
+                        <li>Create Automated Logistics</li>
+                        <li>Create Steam 'n' Rails (Tracks)</li>
+                        <li>Create Factory</li>
+                        <li>Create Central Kitchen</li>
+                        <li>Create Cobblestone</li>
+                        <li>Create Kaboom</li>
+                        <li>Create Liquid Fuel</li>
+                    </ul>
+                </div>
+
+                <!-- Aeronautics & Cannons Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Aeronautics & Cannons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>CBC Firepower Components</li>
+                        <li>CBC Going Ballistic</li>
+                        <li>CBC Compact Mount</li>
+                        <li>Aeronautics Toolgun</li>
+                        <li>Aeronautics Lift Patch</li>
+                        <li>Aeronautics Boat Propellers</li>
+                    </ul>
+                </div>
+
+                <!-- Combat & Weapon Addons -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Combat & Weapons</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>TACZ Mechanics</li>
+                        <li>TACZ Tweaks</li>
+                        <li>TACZ Refit</li>
+                        <li>TACZ Aero Compat</li>
+                        <li>Curios for Ammo Box</li>
+                    </ul>
+                </div>
+
+                <!-- Quality of Life & Exploration -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> QoL & Exploration</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>Travelers Backpack</li>
+                        <li>Jade (WTHIT)</li>
+                        <li>Appleskin</li>
+                        <li>Mouse Tweaks</li>
+                        <li>Clumps</li>
+                        <li>Searchables</li>
+                        <li>Leaves Be Gone</li>
+                        <li>Corpse</li>
+                        <li>Sound Physics Remastered</li>
+                        <li>Presence Footsteps</li>
+                    </ul>
+                </div>
+
+                <!-- Performance & Optimization -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-6 hover:border-blackthorn-accent transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-3 border-b border-zinc-700 pb-2"><span class="text-blackthorn-accent">#</span> Performance</h3>
+                    <ul class="list-disc list-outside text-gray-400 text-sm space-y-1 ml-4">
+                        <li>ModernFix</li>
+                        <li>FerriteCore</li>
+                        <li>Embeddium / Sodium</li>
+                        <li>Lithium</li>
+                        <li>Krypton</li>
+                        <li>Entity Culling</li>
+                        <li>Cull Leaves</li>
+                        <li>BadOptimizations</li>
+                        <li>ImmediatelyFast</li>
+                        <li>Chunky</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- STORE SECTION -->
+        <section id="store" class="tab-content">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-white mb-4">Blackthorn Store</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Support Blackthorn Servers and keep the nation alive! 
+                    Get exclusive cosmetic perks and TACZ skins. We are strictly EULA compliant.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-10">
+                <!-- Ranks -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-8 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4 border border-zinc-700 text-blackthorn-accent">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Server Ranks</h3>
+                    <p class="text-gray-400 mb-6 flex-grow">
+                        Unlock colored chat names, exclusive Discord roles, multiple homes, and special cosmetic hats to display your status.
+                    </p>
+                </div>
+
+                <!-- TACZ Skins -->
+                <div class="bg-blackthorn-card border border-zinc-800 rounded-lg p-8 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4 border border-zinc-700 text-blackthorn-accent">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">TACZ Gun Skins</h3>
+                    <p class="text-gray-400 mb-6 flex-grow">
+                        Customize your arsenal with high-quality, custom-modeled skins available via Tebex. Stand out on the battlefield with exclusive designs.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="#" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blackthorn-accent hover:bg-blackthorn-hover rounded-md text-white font-bold text-lg transition-colors shadow-lg">
+                    Visit Tebex Store
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blackthorn-dark border-t border-zinc-800 py-8 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 Blackthorn Nations. Produced by Blackthorn Servers.<br>
+                <span class="text-xs">Not affiliated with Mojang AB.</span>
+            </div>
+            <div class="flex space-x-6 text-sm text-gray-400">
+                <a href="https://discord.gg/YqngDQrSfB" target="_blank" rel="noopener noreferrer" class="hover:text-blackthorn-accent transition-colors">Discord</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            // Hide all tab content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const selectedContent = document.getElementById(tabId);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+
+            // Update navigation button styles (Desktop)
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                if (btn.getAttribute('data-target') === tabId) {
+                    if (tabId === 'store') {
+                        btn.classList.add('bg-zinc-900');
+                    } else {
+                        btn.classList.add('bg-zinc-900', 'text-white');
+                        btn.classList.remove('text-gray-300');
+                    }
+                } else {
+                    if (btn.getAttribute('data-target') !== 'store') {
+                        btn.classList.remove('bg-zinc-900', 'text-white');
+                        btn.classList.add('text-gray-300');
+                    } else {
+                        btn.classList.remove('bg-zinc-900');
+                    }
+                }
+            });
+
+            // Scroll slightly up to ensure content is visible
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // Copy IP logic
+        function copyIP() {
+            const ipText = document.getElementById('ip-text').innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = ipText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                const btn = document.getElementById('ip-btn');
+                const originalContent = btn.innerHTML;
+                
+                btn.innerHTML = `<span class="text-green-400 font-bold">IP Copied!</span>
+                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>`;
+                btn.classList.add('border-green-500');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('border-green-500');
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        // Initialize: Set Home tab active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('home');
+        });
+    </script>
+</body>
+</html>
